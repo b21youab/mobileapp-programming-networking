@@ -1,89 +1,83 @@
 package com.example.networking;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toolbar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("FieldCanBeLocal")
+public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener  {
 
- public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
-
-     private RecyclerView.Adapter adapter;
-     private Mountain[] mountains;
-
-     public static String convertStreamToString(InputStream is) throws Exception {
-
-
-         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-         StringBuilder builder = new StringBuilder();
-         String line = null;
-
-         while ((line = reader.readLine()) != null) {
-             builder.append(line).append("\n");
-         }
-
-         reader.close();
-
-         return builder.toString();
-     }
-
-
-     ArrayList<String> Mountain = new ArrayList<String>();
-
-     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=brom";
-     private final String JSON_FILE = "mountains.json";
-
-     @Override
-     protected void onCreate(Bundle savedInstanceState) {
-         super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_main);
-         new JsonTask(this).execute("https://mobprog.webug.se/json-api?login=brom");
-
-
-         new JsonFile(this, this).execute("mountains.json");
-
-         try {
-             InputStream is = getApplicationContext().getAssets().open("mountains.json");
-             String s = convertStreamToString(is);
-             Log.d("MainActivity==> ", "The following text was found in textfile: \n\n" + s);
-
-             Gson gson = new Gson();
-             Type type = new TypeToken<ArrayList<Mountain>>() {
-             }.getType();
-             mountains = gson.fromJson(s, Mountain[].class);
-             for (int i = 0; i < mountains.length; i++) {
-                 Log.d("MainActivity", "Hittat ett berg" + i);
-             }
-         } catch (Exception e) {
-             Log.e("MainActivity==>", "Something went wrong when reading textfile: \n\n" + e.getMessage());
-
-         }
-         // }
-
-
-     }
-
-
-
-
-
+    private final String JSON_URL = "https://mobprog.webug.se/json-api?login=brom";
+    private final String JSON_FILE = "mountains.json";
+    private RecyclerView views;
+    ArrayList<Mountain> listOfMountains;
+    RecyclerViewAdapter adapter;
 
     @Override
-    public void onPostExecute(void result) {
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        listOfMountains = new ArrayList<Mountain>();
+
+    /*    ArrayList<RecyclerViewItem> items = new ArrayList<>(Arrays.asList(
+                new RecyclerViewItem("Matterhorn"),
+                new RecyclerViewItem("Mont Blanc"),
+                new RecyclerViewItem("Denali")
+        ));
+        */
+
+
+
+        RecyclerView view = findViewById(R.id.recycler_view);
+        adapter = new RecyclerViewAdapter(listOfMountains);
+        view.setLayoutManager(new LinearLayoutManager(this));
+
+     //   new JsonFile(this, this).execute(JSON_FILE);
+        new JsonTask(this).execute(JSON_URL);
+        views = findViewById(R.id.recycler_view);
+        listOfMountains =new ArrayList<>();
+        views.setAdapter(adapter);
+
+        views.setLayoutManager(new LinearLayoutManager(this));
+
+
 
 
     }
-        }
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onPostExecute(String json) {
+        Log.d("MainActivity==>", json);
 
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Mountain>>() {}.getType();
+        ArrayList<Mountain> data = gson.fromJson(json, type);
+        listOfMountains.addAll(data);
+        Log.d("Youssuf", String.valueOf(listOfMountains.size()));
+        adapter.newMountains(listOfMountains);
+        adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+
+    }
+
+
+}

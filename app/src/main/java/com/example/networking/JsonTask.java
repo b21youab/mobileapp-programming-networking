@@ -14,6 +14,8 @@ public class JsonTask extends AsyncTask<String, String, String> {
 
     public interface JsonTaskListener {
         void onPostExecute(String json);
+
+        void onItemClick(int position);
     }
 
     private HttpURLConnection connection = null;
@@ -61,6 +63,7 @@ public class JsonTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String json) {
+
         listener.onPostExecute(json);
     }
 }
