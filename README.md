@@ -3,16 +3,45 @@
 
 **Skriv din rapport här!**
 
-![](scMountain.png)
+![](ScreenshotMountains.png)
 
+Målet med denna uppgift har varit att hämta JSON-data från nätet och sedan presentera det i en recyclerview.
 
 Denna applikation består av presenterar data, i detta fall JSON-data, som har hämtats från internet.
 Det första som skapades har varit en RecyclerView, sedan en XML-fil där textviewen som visar bergnamnen finns tillhands. 
-Det andra som skapades var en recyclerAdapter. En recyclerAdapter tar hjälp av en Adapter som agerar som en handler och som då hanterar datan som ska visas upp.
+Det andra som skapades var en RecyclerViewAdapter skapades för att hantera data och en ViewHolder-klass skapades inuti den.
+En recyclerAdapter tar hjälp av en Adapter som agerar som en handler och som då hanterar datan som ska visas upp.
+För att skapa objekt från JSON-data skapades en Mountain-klass med variabler, 
+constructor och getter, sedan skapades en XML-fil för att  visa informationen i TextView.
 
+```
+   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item, parent, false);
+        return new ViewHolder(view);
+    }
+```
+```
+public void onPostExecute(String json) {
+Log.d("MainActivity==>", json);
+  Gson gson = new Gson();
+  Type type = new TypeToken<List<Mountain>>() { }.getType();
+ArrayList<Mountain> data = gson.fromJson(json, type);
+  listOfMountains.addAll(data);
+Log.d("Youssuf", String.valueOf(listOfMountains.size()));
+  for (Mountain mountain : listOfMountains) {
+item.add(new RecyclerViewItem(mountain.getName()));
 
+        }
+        adapter.newMountains(listOfMountains);
+        adapter.notifyDataSetChanged();
 
+    }
+```
+Metoden onPostExecute parsar JSON-datan in till en Arraylist som kallas för Mountain med hjälp av Gson.
+RecyclerView uppdateras med den nya datan.
 
+Denna kodsnutt representerar en override-metod för att skapa en ViewHolder som kommer att hålla en egen vy i en RecyclerView. 
+Den skapar en vy med hjälp av en XML-fil och returnerar en ny ViewHolder.
 ## Följande grundsyn gäller dugga-svar:
 
 - Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.

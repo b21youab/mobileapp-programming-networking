@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Mountain {
     int size;
-    private  String name;
+    private String name;
     private String ID;
     private String location;
     private String type;
@@ -15,10 +15,8 @@ public class Mountain {
 
     public Mountain(String name, String location, int height) {
         this.name = name;
-        //    this.location = location;
-        //   this.ID = ID;
-    }
 
+    }
 
 
     public String getName() {
@@ -36,10 +34,12 @@ public class Mountain {
 
         return height;
     }
+
     public String getID() {
 
         return ID;
     }
+
     public String getType() {
 
         return type;
@@ -48,11 +48,11 @@ public class Mountain {
 
     public void setName() {
 
-        this.name= name;
+        this.name = name;
     }
 
     public void setLocation() {
-        this.location =location;
+        this.location = location;
     }
 
     @NonNull
