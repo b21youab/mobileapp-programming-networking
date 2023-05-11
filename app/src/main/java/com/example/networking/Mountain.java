@@ -5,33 +5,28 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 public class Mountain {
-    private String name;
+    int size;
+    private  String name;
     private String ID;
     private String location;
     private String type;
-    // Using @SerializedName to change name from attribute "size" in json to "height" in code.
-    @SerializedName("size")
+    //@SerializedName("size")
     private int height;
 
     public Mountain(String name, String location, int height) {
         this.name = name;
-        this.location = location;
-        this.height = height;
-        this.ID = ID;
-        this.type = type;
+        //    this.location = location;
+        //   this.ID = ID;
     }
 
 
-    public Mountain() {
-        name = "MISSING";
-        location = "MISSING";
-        height = -1;
-    }
 
     public String getName() {
 
         return name;
     }
+
+
     public String getLocation() {
 
         return location;
@@ -43,21 +38,28 @@ public class Mountain {
     }
     public String getID() {
 
-        return this.ID;
+        return ID;
     }
     public String getType() {
 
-        return this.type;
+        return type;
     }
 
 
+    public void setName() {
 
+        this.name= name;
+    }
+
+    public void setLocation() {
+        this.location =location;
+    }
 
     @NonNull
     @Override
     public String toString() {
 
-    return name;
+        return name;
     }
 
     public String info() {
@@ -67,6 +69,7 @@ public class Mountain {
 
         return s;
     }
+
 }
 
 

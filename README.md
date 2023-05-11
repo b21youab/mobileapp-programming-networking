@@ -3,7 +3,15 @@
 
 **Skriv din rapport här!**
 
-_Du kan ta bort all text som finns sedan tidigare_.
+![](scMountain.png)
+
+
+Denna applikation består av presenterar data, i detta fall JSON-data, som har hämtats från internet.
+Det första som skapades har varit en RecyclerView, sedan en XML-fil där textviewen som visar bergnamnen finns tillhands. 
+Det andra som skapades var en recyclerAdapter. En recyclerAdapter tar hjälp av en Adapter som agerar som en handler och som då hanterar datan som ska visas upp.
+
+
+
 
 ## Följande grundsyn gäller dugga-svar:
 
@@ -33,7 +41,6 @@ function errorCallback(error) {
 
 Bilder läggs i samma mapp som markdown-filen.
 
-![](android.png)
 
 Läs gärna:
 
